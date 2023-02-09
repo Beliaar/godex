@@ -8,7 +8,7 @@ struct OverlapStart {
 	EntityID area;
 	EntityID other_body;
 
-	static void _bind_method();
+	static void _bind_methods();
 };
 
 struct OverlapEnd {
@@ -17,5 +17,5 @@ struct OverlapEnd {
 	EntityID area;
 	EntityID other_body;
 
-	static void _bind_method();
+	static void _bind_methods();
 };
