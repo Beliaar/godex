@@ -9,6 +9,8 @@ on:
 
 # Global Settings
 env:
+  # Used for the cache key. Add version suffix to force clean build.
+  GODEX_BASE_BRANCH: main
   GODOT_REF: ab7cb2a95d060a6533e6ff5111c11f71972ab43f
   SCONSFLAGS: platform=linuxbsd verbose=yes warnings=extra werror=yes debug_symbols=no module_text_server_fb_enabled=yes
   SCONS_CACHE_LIMIT: 4096
@@ -48,6 +50,12 @@ jobs:
       run: |
         cd godot
         git apply ../modules/godex/patches/add_custom_iterator.patch --reject --ignore-space-change --ignore-whitespace
+
+    - name: Setup Godex build cache
+      uses: ./modules/godex/.github/actions/godex-cache
+      with:
+        cache-name: ${{ matrix.cache-name }}
+      continue-on-error: true
 
     # Azure repositories are not reliable, we need to prevent azure giving us packages.
     - name: Make apt sources.list use the default Ubuntu repositories
