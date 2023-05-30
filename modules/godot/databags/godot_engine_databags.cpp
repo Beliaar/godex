@@ -38,10 +38,10 @@ MessageQueueDatabag::MessageQueueDatabag() {
 	message_queue = MessageQueue::get_singleton();
 }
 
-MessageQueue *MessageQueueDatabag::get_queue() {
+CallQueue *MessageQueueDatabag::get_queue() {
 	return message_queue;
 }
 
-const MessageQueue *MessageQueueDatabag::get_queue() const {
+const CallQueue *MessageQueueDatabag::get_queue() const {
 	return message_queue;
 }

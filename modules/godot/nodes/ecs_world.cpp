@@ -19,10 +19,10 @@
 void PipelineECS::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("set_pipeline_name", "name"), &PipelineECS::set_pipeline_name);
 	ClassDB::bind_method(D_METHOD("get_pipeline_name"), &PipelineECS::get_pipeline_name);
-	ClassDB::bind_method(D_METHOD("set_systems_name", "systems_name"), &PipelineECS::set_systems_name);
-	ClassDB::bind_method(D_METHOD("get_systems_name"), &PipelineECS::get_systems_name);
-	ClassDB::bind_method(D_METHOD("set_system_bundles", "systems_name"), &PipelineECS::set_system_bundles);
-	ClassDB::bind_method(D_METHOD("get_system_bundles"), &PipelineECS::get_system_bundles);
+	ClassDB::bind_method(D_METHOD("set_systems_name", "systems_name"), &PipelineECS::_set_systems_name);
+	ClassDB::bind_method(D_METHOD("get_systems_name"), &PipelineECS::_get_systems_name);
+	ClassDB::bind_method(D_METHOD("set_system_bundles", "systems_name"), &PipelineECS::_set_system_bundles);
+	ClassDB::bind_method(D_METHOD("get_system_bundles"), &PipelineECS::_get_system_bundles);
 
 	ClassDB::bind_method(D_METHOD("add_system_bundle", "system_bundle"), &PipelineECS::add_system_bundle);
 	ClassDB::bind_method(D_METHOD("remove_system_bundle", "system_bundle"), &PipelineECS::remove_system_bundle);
@@ -69,8 +69,16 @@ void PipelineECS::set_systems_name(Vector<StringName> p_system_names) {
 	notify_property_list_changed();
 }
 
+void PipelineECS::_set_systems_name(TypedArray<StringName> p_system_names) {
+	set_systems_name(Variant(p_system_names));
+}
+
 Vector<StringName> PipelineECS::get_systems_name() const {
 	return systems_name;
+}
+
+TypedArray<StringName> PipelineECS::_get_systems_name() const {
+	return Variant(get_systems_name()).operator Array();
 }
 
 void PipelineECS::set_system_bundles(Vector<StringName> p_system_bundles) {
@@ -81,8 +89,16 @@ void PipelineECS::set_system_bundles(Vector<StringName> p_system_bundles) {
 	notify_property_list_changed();
 }
 
+void PipelineECS::_set_system_bundles(TypedArray<StringName> p_system_bundles) {
+	system_bundles = Variant(p_system_bundles);
+}
+
 Vector<StringName> PipelineECS::get_system_bundles() {
 	return system_bundles;
+}
+
+TypedArray<StringName> PipelineECS::_get_system_bundles() {
+	return Variant(get_system_bundles()).operator Array();
 }
 
 void PipelineECS::add_system_bundle(const StringName &p_bundle_name) {

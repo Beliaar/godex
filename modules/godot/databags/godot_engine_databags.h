@@ -40,11 +40,11 @@ class MessageQueueDatabag : public godex::Databag {
 
 	static void _bind_methods();
 
-	MessageQueue *message_queue;
+	CallQueue *message_queue;
 
 public:
 	MessageQueueDatabag();
 
-	MessageQueue *get_queue();
-	const MessageQueue *get_queue() const;
+	CallQueue *get_queue();
+	const CallQueue *get_queue() const;
 };

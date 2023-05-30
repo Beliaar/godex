@@ -2,6 +2,7 @@
 
 #include "../../../components/component.h"
 #include "../../../utils/fetchers.h"
+#include "core/variant/typed_array.h"
 #include "scene/main/node.h"
 
 class Pipeline;
@@ -45,9 +46,14 @@ public:
 
 	void set_systems_name(Vector<StringName> p_system_names);
 	Vector<StringName> get_systems_name() const;
+	void _set_systems_name(TypedArray<StringName> p_system_names);
+	TypedArray<StringName> _get_systems_name() const;
 
 	void set_system_bundles(Vector<StringName> p_system_bundles);
 	Vector<StringName> get_system_bundles();
+
+	void _set_system_bundles(TypedArray<StringName> p_system_bundles);
+	TypedArray<StringName> _get_system_bundles();
 
 	/// Insert a new system bundle into the world.
 	void add_system_bundle(const StringName &p_bundle_name);
