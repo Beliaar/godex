@@ -5,11 +5,11 @@ on:
 
 # Global Settings
 env:
-  GODOT_REF: 5222a99f5d38cd5346254cefed8f65315bca4fcb
+  GODOT_REF: 970459615f6b2b4151742ec6d7ef8559f87fd5c5
   SCONSFLAGS: verbose=yes module_text_server_fb_enabled=yes custom_modules="../modules" #warnings=extra werror=yes
   SCONS_CACHE_LIMIT: 4096
   BASE_BRANCH: main
-  GODOT_BASE_BRANCH: "4.0"
+  GODOT_BASE_BRANCH: "4.1"
 
 jobs:
   linux-editor:
