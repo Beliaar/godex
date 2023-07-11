@@ -37,14 +37,8 @@ jobs:
     - name: Clone godex
       uses: actions/checkout@v3
       with:
-       path: modules/godex
-       
-    - name: Setup Dotnet
-    - uses: actions/checkout@v3
-    - uses: actions/setup-dotnet@v3
-      with:
-        dotnet-version: '6.0.x'
-      
+       path: modules/godex       
+    
     - name: Clone godot for godex
       uses: actions/checkout@v3
       with:
