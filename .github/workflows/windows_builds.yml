@@ -7,7 +7,7 @@ on:
 # SCONS_CACHE for windows must be set in the build environment
 env:
   GODOT_REF: 970459615f6b2b4151742ec6d7ef8559f87fd5c5
-  SCONSFLAGS: platform=windows verbose=yes warnings=all werror=yes debug_symbols=no module_text_server_fb_enabled=true
+  SCONSFLAGS: platform=windows verbose=yes warnings=all werror=yes debug_symbols=no module_text_server_fb_enabled=true module_mono_enabled=yes
   SCONS_CACHE_MSVC_CONFIG: true
   BASE_BRANCH: "4.1"
 
