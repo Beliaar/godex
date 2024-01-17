@@ -1225,6 +1225,8 @@ TEST_CASE("[Modules][ECS] Test DynamicQuery changed.") {
 		query_changed.initiate_process(&world);
 		CHECK(query_changed.next() == false);
 		CHECK(query_changed.count() == 0);
+
+		query_changed.release_world(&world);
 	}
 }
 

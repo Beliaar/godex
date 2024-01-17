@@ -119,6 +119,12 @@ TEST_CASE("[SteadyStorage] Push and remove memory check.") {
 	// At this point it's safe to assume that the data created is steady inplace
 	// until explictly removed, even if other entities are added or removed.
 	// All the pointers remain valid until explicitly removed.
+
+	for (uint32_t i = 0; i < count; i += 1) {
+		if (pointers[i]) {
+			storage.remove(i);
+		}
+	}
 }
 } // namespace godex_ecs_steady_storage_tests
 

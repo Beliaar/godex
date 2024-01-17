@@ -46,6 +46,8 @@ TEST_CASE("[Modules][ECS] Test temporary system.") {
 	const ExecutionCounter *counter = world.get_databag<ExecutionCounter>();
 	// Make sure this run just twice.
 	CHECK(counter->count == 2);
+
+	pipeline.release_world(token);
 }
 
 TEST_CASE("[Modules][ECS] Test registered temporary system.") {
@@ -69,6 +71,7 @@ TEST_CASE("[Modules][ECS] Test registered temporary system.") {
 	const ExecutionCounter *counter = world.get_databag<ExecutionCounter>();
 	// Make sure this run just twice.
 	CHECK(counter->count == 2);
+	pipeline.release_world(token);
 }
 
 bool temporary_system_2_test(ExecutionCounter *p_counter) {
@@ -129,6 +132,7 @@ TEST_CASE("[Modules][ECS] Test temporary system order on removal.") {
 	const ExecutionCounter *counter = world.get_databag<ExecutionCounter>();
 	// Make sure this run just twice.
 	CHECK(counter->count == 5);
+	pipeline.release_world(token);
 }
 } // namespace godex_tests_temporary_system
 

@@ -101,22 +101,22 @@ public:
 			return;
 		}
 
-		Child &child = storage.get(p_entity);
+		Child *child = &storage.get(p_entity);
 
 		if (update) {
-			if (child.parent == p_data.parent) {
+			if (child->parent == p_data.parent) {
 				// Same parent, nothing to do.
 				return;
 			}
 
 			// Has another parent, update the relationships:
 			// 1. Unlink p_entity with its current parent.
-			unlink_parent(p_entity, child);
+			unlink_parent(p_entity, *child);
 
 			// 2. Set `p_entity` with its new parent.
-			child.parent = p_data.parent;
+			child->parent = p_data.parent;
 
-			if (child.parent.is_null() && child.first_child.is_null()) {
+			if (child->parent.is_null() && child->first_child.is_null()) {
 				// There are no more relations, so just remove this.
 				remove(p_entity);
 				return;
@@ -124,26 +124,28 @@ public:
 		} else {
 			// This is a new insert, so make sure `first_child` and `next` are
 			// not set.
-			child.first_child = EntityID();
-			child.next = EntityID();
+			child->first_child = EntityID();
+			child->next = EntityID();
 		}
 
 		hierarchy_changed.insert(p_entity);
 
 		// Update the parent if any.
-		if (child.parent.is_null() == false) {
-			if (has(child.parent) == false) {
+		if (child->parent.is_null() == false) {
+			if (has(child->parent) == false) {
 				// Parent is always root when added in this way.
-				storage.insert(child.parent, Child());
-				hierarchy_changed.insert(child.parent);
+				storage.insert(child->parent, Child());
+				// storage might get resized during an insert
+				child = &storage.get(p_entity);
+				hierarchy_changed.insert(child->parent);
 			}
 
-			Child &parent = storage.get(child.parent);
+			Child &parent = storage.get(child->parent);
 
 			// Add `child` as child of this parent but keep the chain.
 			EntityID prev_first_child = parent.first_child;
 			parent.first_child = p_entity;
-			child.next = prev_first_child;
+			child->next = prev_first_child;
 		}
 	}
 

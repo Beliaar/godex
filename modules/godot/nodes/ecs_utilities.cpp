@@ -149,8 +149,12 @@ String System::validate_script(Ref<Script> p_script) {
 	p_script->get_script_property_list(&properties);
 	for (List<PropertyInfo>::Element *e = properties.front(); e; e = e->next()) {
 		if (e->get().name == p_script->get_class_category().name) {
-			properties.erase(e);
+			auto to_delete = e;
+			e = e->next();
+			properties.erase(to_delete);
 		}
+		if (!e)
+			break;
 	}
 #endif
 

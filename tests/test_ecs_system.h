@@ -183,6 +183,8 @@ TEST_CASE("[Modules][ECS] Test system and query") {
 
 	// This entity is expected to change.
 	CHECK(ABS(entity_3_origin.x - 300.0) <= CMP_EPSILON);
+
+	pipeline.release_world(token);
 }
 
 TEST_CASE("[Modules][ECS] Test dynamic system using a script.") {
@@ -290,6 +292,8 @@ TEST_CASE("[Modules][ECS] Test dynamic system using a script.") {
 		// Make sure this doesn't changed.
 		CHECK(ECS::unsafe_component_get_by_name(test_dyn_component_id, storage->get_ptr(entity_3), "variable_2") == Variant(false));
 	}
+
+	pipeline.release_world(token);
 
 	finalize_script_ecs();
 }
@@ -402,7 +406,7 @@ TEST_CASE("[Modules][ECS] Test dynamic system with sub pipeline C++.") {
 		CHECK(bag->iterations == 3);
 		CHECK(bag->sub_iterations == 10);
 	}
-
+	main_pipeline.release_world(token);
 	finalize_script_ecs();
 }
 
@@ -436,6 +440,7 @@ TEST_CASE("[Modules][ECS] Test system and databag") {
 		}
 
 		CHECK(world.get_databag<TestSystem1Databag>()->a == 40);
+		pipeline.release_world(token);
 	}
 
 	// Test without databag
@@ -464,6 +469,7 @@ TEST_CASE("[Modules][ECS] Test system and databag") {
 
 		// Make sure the databag is not nullptr.
 		CHECK(world.get_databag<TestSystem1Databag>() != nullptr);
+		pipeline.release_world(token);
 	}
 }
 
@@ -513,6 +519,8 @@ TEST_CASE("[Modules][ECS] Test system databag fetch with dynamic query.") {
 
 	// Make sure the `exe_count` is changed to 10 by the script.
 	CHECK(world.get_databag<TestSystemSubPipeDatabag>()->exe_count == 10);
+
+	pipeline.release_world(token);
 
 	finalize_script_ecs();
 }
@@ -567,6 +575,8 @@ TEST_CASE("[Modules][ECS] Test event mechanism.") {
 		// Make sure we don't add more than 2 components.
 		CHECK(world.get_storage<BatchableComponent1>()->get_batch_size(entity) == 2);
 	}
+
+	pipeline.release_world(token);
 }
 
 TEST_CASE("[Modules][ECS] Test create and remove Entity from Systems.") {
@@ -612,6 +622,8 @@ TEST_CASE("[Modules][ECS] Test create and remove Entity from Systems.") {
 			CHECK(count == 0);
 		}
 	}
+
+	pipeline.release_world(token);
 }
 
 TEST_CASE("[Modules][ECS] Test system and hierarchy.") {
@@ -672,6 +684,8 @@ TEST_CASE("[Modules][ECS] Test system and hierarchy.") {
 			const TransformComponent *entity_2_transform = world.get_storage<TransformComponent>()->get(entity_2, Space::GLOBAL);
 			CHECK(ABS(entity_2_transform->origin.x - 4.0) <= CMP_EPSILON);
 		}
+
+		pipeline.release_world(token);
 	}
 
 	// Now move `Entity_1` but using `GLOBAL`.
@@ -728,6 +742,8 @@ TEST_CASE("[Modules][ECS] Test system and hierarchy.") {
 			const TransformComponent *entity_2_transform_g = world.get_storage<TransformComponent>()->get(entity_2, Space::GLOBAL);
 			CHECK(ABS(entity_2_transform_g->origin.x - 7.0) <= CMP_EPSILON);
 		}
+
+		pipeline.release_world(token);
 	}
 
 	// Now change hierarchy
@@ -777,6 +793,8 @@ TEST_CASE("[Modules][ECS] Test system and hierarchy.") {
 			const TransformComponent *entity_2_transform_g = world.get_storage<TransformComponent>()->get(entity_2, Space::GLOBAL);
 			CHECK(ABS(entity_2_transform_g->origin.x - 5.0) <= CMP_EPSILON);
 		}
+
+		pipeline.release_world(token);
 	}
 
 	// Try move `Entity_0` using `LOCAL`, and make sure now one else move.
@@ -826,6 +844,8 @@ TEST_CASE("[Modules][ECS] Test system and hierarchy.") {
 			const TransformComponent *entity_1_transform = world.get_storage<TransformComponent>()->get(entity_1, Space::GLOBAL);
 			CHECK(ABS(entity_1_transform->origin.x - 4.0) <= CMP_EPSILON);
 		}
+
+		pipeline.release_world(token);
 	}
 
 	// Try move `Entity_2` using a GDScript system.
@@ -895,6 +915,8 @@ TEST_CASE("[Modules][ECS] Test system and hierarchy.") {
 			const TransformComponent *entity_2_transform_g = world.get_storage<TransformComponent>()->get(entity_2, Space::GLOBAL);
 			CHECK(ABS(entity_2_transform_g->origin.x - 10.0) <= CMP_EPSILON);
 		}
+
+		pipeline.release_world(token);
 		finalize_script_ecs();
 	}
 }
@@ -977,6 +999,8 @@ TEST_CASE("[Modules][ECS] Test Add/remove from dynamic system.") {
 
 		// Make sure the default value is set.
 		CHECK(world.get_storage<Test1Component>()->get(entity_3)->a == Test1Component().a);
+
+		pipeline.release_world(token);
 	}
 
 	// Test remove
@@ -997,6 +1021,8 @@ TEST_CASE("[Modules][ECS] Test Add/remove from dynamic system.") {
 		// Make sure the Test1Component is correctly removed
 		CHECK(world.get_storage<Test1Component>()->has(entity_2) == false);
 		CHECK(world.get_storage<Test1Component>()->has(entity_3) == false);
+
+		pipeline.release_world(token);
 	}
 
 	finalize_script_ecs();
@@ -1047,6 +1073,7 @@ TEST_CASE("[Modules][ECS] Test fetch changed from dynamic system.") {
 
 	CHECK(ABS(world.get_storage<TransformComponent>()->get(entity_1)->origin.x - 100.0) <= CMP_EPSILON);
 
+	pipeline.release_world(token);
 	finalize_script_ecs();
 }
 } // namespace godex_tests_system
@@ -1126,6 +1153,8 @@ TEST_CASE("[Modules][ECS] Test system changed query filter.") {
 	CHECK(entity_2_tracer->trace == 3);
 	// Taken immutably, so never changed.
 	CHECK(entity_3_tracer->trace == 1);
+
+	pipeline.release_world(token);
 }
 
 TEST_CASE("[Modules][ECS] Test fetch entity from nodepath, using a dynamic system.") {
@@ -1184,6 +1213,8 @@ TEST_CASE("[Modules][ECS] Test fetch entity from nodepath, using a dynamic syste
 
 		// Make sure the value is correctly changed.
 		CHECK(world.get_storage<Test1Component>()->get(entity_1)->a == 1000);
+
+		pipeline.release_world(token);
 	}
 
 	finalize_script_ecs();
@@ -1244,11 +1275,13 @@ TEST_CASE("[Modules][ECS] Make sure the events storages are automatically create
 		}
 
 		World world;
-		pipeline.prepare_world(&world);
+		auto token = pipeline.prepare_world(&world);
 
 		EventStorage<MyEvent1Test> *storage = world.get_events_storage<MyEvent1Test>();
 		// Make sure the storage is been created at this point, since `prepare` does it.
 		CHECK(storage != nullptr);
+
+		pipeline.release_world(token);
 	}
 
 	// Make sure the world creates the event storage when the `Events` is encountered.
@@ -1264,13 +1297,15 @@ TEST_CASE("[Modules][ECS] Make sure the events storages are automatically create
 		}
 
 		World world;
-		pipeline.prepare_world(&world);
+		auto token = pipeline.prepare_world(&world);
 
 		EventStorage<MyEvent1Test> *storage = world.get_events_storage<MyEvent1Test>();
 		// Make sure the storage is been created at this point, since `prepare` does it.
 		CHECK(storage != nullptr);
 		// Make sure the emitter has been created.
 		CHECK(storage->has_emitter("Test1"));
+
+		pipeline.release_world(token);
 	}
 
 	// Now test using GDScript
@@ -1319,11 +1354,13 @@ TEST_CASE("[Modules][ECS] Make sure the events storages are automatically create
 		}
 
 		World world;
-		pipeline.prepare_world(&world);
+		auto token = pipeline.prepare_world(&world);
 
 		EventStorage<MyEvent1Test> *storage = world.get_events_storage<MyEvent1Test>();
 		// Make sure the storage is been created at this point, since `prepare` does it.
 		CHECK(storage != nullptr);
+
+		pipeline.release_world(token);
 	}
 	{
 		Pipeline pipeline;
@@ -1337,13 +1374,15 @@ TEST_CASE("[Modules][ECS] Make sure the events storages are automatically create
 		}
 
 		World world;
-		pipeline.prepare_world(&world);
+		auto token = pipeline.prepare_world(&world);
 
 		EventStorage<MyEvent1Test> *storage = world.get_events_storage<MyEvent1Test>();
 		// Make sure the storage is been created at this point, since `prepare` does it.
 		CHECK(storage != nullptr);
 		// Make sure the emitter has been created.
 		CHECK(storage->has_emitter("EmitterTest"));
+
+		pipeline.release_world(token);
 	}
 	finalize_script_ecs();
 }
@@ -1375,6 +1414,8 @@ TEST_CASE("[Modules][ECS] Test EventEmitter and EventReceiver") {
 
 		pipeline.dispatch(token);
 		CHECK(storage->get_events("Test1")->size() == 1);
+
+		pipeline.release_world(token);
 	}
 
 	// Now test using GDScript
@@ -1442,6 +1483,8 @@ TEST_CASE("[Modules][ECS] Test EventEmitter and EventReceiver") {
 
 		pipeline.dispatch(token);
 		CHECK(storage->get_events("Test1")->size() == 1);
+
+		pipeline.release_world(token);
 	}
 	finalize_script_ecs();
 }

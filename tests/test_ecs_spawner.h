@@ -162,6 +162,8 @@ TEST_CASE("[Modules][ECS] Test spawner Script registration.") {
 		const Storage<const TransformComponent> *storage = world.get_storage<const TransformComponent>();
 		CHECK(storage == nullptr);
 	}
+
+	pipeline.release_world(token);
 	finalize_script_ecs();
 }
 } // namespace godex_tests

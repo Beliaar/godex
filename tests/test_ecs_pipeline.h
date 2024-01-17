@@ -119,6 +119,8 @@ TEST_CASE("[Modules][ECS] Test `PipelineCommands`.") {
 	CHECK(Math::is_equal_approx(storage->get(entity_1)->origin.x, real_t(300.0)));
 	CHECK(Math::is_equal_approx(storage->get(entity_2)->origin.x, real_t(300.0)));
 	CHECK(Math::is_equal_approx(storage->get(entity_3)->origin.x, real_t(600.0)));
+
+	pipeline.release_world(token);
 }
 } // namespace godex_tests_pipeline
 #endif // TEST_ECS_PIPELINE_H

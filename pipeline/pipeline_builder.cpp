@@ -931,8 +931,12 @@ void PipelineBuilder::optimize_stages(ExecutionGraph *r_graph) {
 		// Remove the void stages.
 		for (List<ExecutionGraph::StageNode>::Element *e = dispatcher->stages.front(); e; e = e->next()) {
 			if (e->get().systems.size() == 0) {
-				e->erase();
+				auto to_delete = e;
+				e = e->next();
+				to_delete->erase();
 			}
+			if (!e)
+				break;
 		}
 	}
 }
